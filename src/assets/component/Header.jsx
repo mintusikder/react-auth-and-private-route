@@ -7,7 +7,7 @@ const Header = () => {
   const handelLogout = () => {
     logOut()
       .then(() => {
-        console.log("User logOut sucessful");
+        console.log("User logOut successful");
       })
       .catch((error) => {
         console.log(error);
@@ -23,6 +23,9 @@ const Header = () => {
       </li>
       <li>
         <NavLink to="/login">Login</NavLink>
+      </li>
+      <li>
+        <NavLink to="/order">Orders</NavLink>
       </li>
     </>
   );
