@@ -2,24 +2,23 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 
-
 const Login = () => {
-    const {signInUser} = useContext(AuthContext)
-    const handelLogin = (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        console.log(email, password);
-        signInUser(email,password)
-        .then(result=> {
-            console.log(result.user)
-        })
-        .then(error =>{
-            console.log(error)
-        })
-      };
-    return (
-        <div className="hero min-h-screen bg-base-200">
+  const { signInUser } = useContext(AuthContext);
+  const handelLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password);
+    signInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  return (
+    <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Login now!</h1>
@@ -75,7 +74,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default Login;
