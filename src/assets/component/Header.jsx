@@ -27,6 +27,16 @@ const Header = () => {
       <li>
         <NavLink to="/order">Orders</NavLink>
       </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/profile">Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
@@ -75,7 +85,7 @@ const Header = () => {
               </button>
             </>
           ) : (
-            <Link onClick="/login">Login</Link>
+            <Link to="/login">Login</Link>
           )}
         </div>
       </div>

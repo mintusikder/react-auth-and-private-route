@@ -4,58 +4,65 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import auth from "../firebase/firebase.config";
+import { GoogleAuthProvider } from "firebase/auth/cordova";
 // import React from 'react';
 export const AuthContext = createContext(null);
-
+const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
   const signInUser = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const logOut = ()=>{
-    setLoading(true)
-    return signOut(auth)
-  }
+  const signInWithGoogle = () => {
+    setLoading(true);
+    return signInWithPopup(googleProvider, auth);
+  };
+
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+     
+      setLoading(false);
       console.log("Observing current user", currentUser);
-      setLoading(false)
+      setUser(currentUser);
     });
     return () => {
       unSubscribe();
-      
     };
   }, []);
 
+  //   useEffect(() => {
+  //     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //       setUser(currentUser);
 
-//   useEffect(() => {
-//     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-//       setUser(currentUser);
-
-//     });
-//     return () => {
-//       unSubscribe();
-//     };
-//   }, []);
+  //     });
+  //     return () => {
+  //       unSubscribe();
+  //     };
+  //   }, []);
 
   const info = {
     user,
     loading,
     createUser,
     signInUser,
+    signInWithGoogle,
     logOut,
   };
 

@@ -1,21 +1,36 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 
 const Login = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handelLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(email, password);
+
     signInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        e.target.reset();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handelGoogleSignIn = () => {
+    signInWithGoogle()
       .then((result) => {
         console.log(result.user);
       })
       .catch((error) => {
         console.log(error);
       });
+
   };
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -69,8 +84,14 @@ const Login = () => {
             <Link to="/register">
               <span className="link"> Please Register</span>
             </Link>
+      
           </p>
-          <p></p>
+          <p>
+              <button onClick={handelGoogleSignIn} className="btn btn-ghost">
+                Google
+              </button>
+            </p>
+   
         </div>
       </div>
     </div>
